@@ -45,3 +45,4 @@ wap(:$server-ip, :$server-port, :$default-html, :%webservices);
 - Add the route for each webservice sub in the `%webservices` hash like the example.
 - Sets the max number of threads in `/lib/Configuration.pm6`
 - Run, for example, with: `perl6 wap6.pl6`
+- Run web-client in http://localhost:3000
