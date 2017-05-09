@@ -18,20 +18,22 @@ sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
   my Int $i = 0;
   # iterate $buf increasing $i and matching \r\n\r\n via dec code
   until ($buf[$i] == 13) && ($buf[$i+1] == 10) && ($buf[$i+2] == 13) && ($buf[$i+3] == 10) { $i++; }
-  # extract headers from 0 to $i and decoding to utf-8
-  my $headers = $buf.subbuf(0, $i).decode('UTF-8');
-  my $body = $buf.subbuf($i, $buf.elems).decode('UTF-8');
+  # extract headers, body and decoding to utf-8
+  my $headers = $buf.subbuf(0, ($i-1)).decode('UTF-8');
+  my $body = $buf.subbuf(($i+4), $buf.elems).decode('UTF-8');
 
   # initialize method, uri and protocol info from headers
   my ($method, $uri-full, $protocol) = "";
 
   # assign http method, full uri and http protocol version
-  if $headers ~~ m:g:i:s/(GET|POST) (\/.*?) (HTTP\/.*?)$nl/ {
+  if $headers ~~ m:g:i:s/(GET|POST) (\/.*?) (HTTP\/.*?)/ {
     $method   = $/[0][0].Str;
     $uri-full = $/[0][1].Str;
     $protocol = $/[0][2].Str;
   } else {
       # incorrect headers, return 400 Bad Request
+      my $error = "Bad Request";
+      write-log :$error;
       return $http-header_400;
   }
 
@@ -41,7 +43,7 @@ sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
   my $get-params = uri-unescape($uri.query);
 
   # shows processed incoming data
-  write-log $method, $path, $get-params, $body;
+  write-log :$method, :$path, :$get-params, :$body;
 
   # preparing response from given path
   given $path {
