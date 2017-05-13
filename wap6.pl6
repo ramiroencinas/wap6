@@ -12,5 +12,6 @@ my %webservices;
 # key = route, value = corresponding sub of the Webservices module
 %webservices{'/ws1'} = &ws1;
 %webservices{'/ws2'} = &ws2;
+%webservices{'/ws-fileops'} = &ws-fileops;
 
 wap(:$server-ip, :$server-port, :$default-html, :%webservices);
