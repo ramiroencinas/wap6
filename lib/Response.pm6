@@ -4,6 +4,7 @@ use Configuration;
 use URI;
 use URI::Escape;
 use WriteLog;
+use WriteAccessLog;
 
 sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
 
@@ -44,6 +45,9 @@ sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
 
   # shows processed incoming data
   write-log :$method, :$path, :$get-params, :$body;
+
+  # write access log
+  write-access-log :$method, :$path, :$get-params;
 
   # preparing response from given path
   given $path {
