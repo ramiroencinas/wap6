@@ -43,7 +43,7 @@ wap(:$server-ip, :$server-port, :$default-html, :%webservices);
 
 - Creates a folder to hold the web solution and within it...
 - Creates `public` and `webservices` folders.
-- Creates the main server Perl6 script like the example above, and name it: `wap6.pl6`.
+- Creates the main server Perl6 script like the example above, and name it: `wap6.pl6`
 - In `wap6.pl6`:
   - Set the max number of threads in `%*ENV{'RAKUDO_MAX_THREADS'}`
   - Set `$server-ip` and `$server-port` variables like the example.
