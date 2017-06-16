@@ -5,8 +5,12 @@ use URI;
 use URI::Escape;
 use WriteLog;
 use WriteAccessLog;
+use WriteErrorLog;
 
 sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
+
+  # resume all exceptions and write anyone in error.log
+  CATCH { default { write-error-log $_; .resume } }
 
   # validations
   # check http entity max size
