@@ -1,8 +1,11 @@
-use lib 'lib';
+use lib '../lib';
 use Wap6;
 
 use lib 'webservices';
 use Webservices;
+
+# max number of threads (16 by default)
+%*ENV{'RAKUDO_MAX_THREADS'} = 50;
 
 my $server-ip = "0.0.0.0";
 my $server-port = 3000;

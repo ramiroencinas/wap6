@@ -1,8 +1,5 @@
 unit module Configuration;
 
-# max number of threads (16 by default)
-%*ENV{'RAKUDO_MAX_THREADS'} = 50;
-
 # current application path
 our $current-dir is export = $*CWD;
 
