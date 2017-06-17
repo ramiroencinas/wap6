@@ -6,6 +6,7 @@ use URI::Escape;
 use WriteLog;
 use WriteAccessLog;
 use WriteErrorLog;
+use ContentType;
 
 sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
 
@@ -73,8 +74,11 @@ sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
     }
 
     # the path is another file, returns it!
+    # with the corresponding content-type
     default {
-      return $http-header_200 ~ slurp "$current-dir/public/$path";
+      my $filepath = "$current-dir/public/$path";
+      my $type = content-type(:$filepath);
+      return "HTTP/1.1 200 OK" ~ $nl ~ "Content-Type: $type" ~ $nel; ~ slurp "$current-dir/public/$path";
     }
   }
 }
