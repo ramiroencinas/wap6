@@ -78,7 +78,7 @@ sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
     default {
       my $filepath = "$current-dir/public/$path";
       my $type = content-type(:$filepath);
-      return "HTTP/1.1 200 OK" ~ $nl ~ "Content-Type: $type" ~ $nel; ~ slurp "$current-dir/public/$path";
+      return "HTTP/1.1 200 OK" ~ $nl ~ "Content-Type: $type" ~ $nel ~ slurp "$current-dir/public/$path";
     }
   }
 }
