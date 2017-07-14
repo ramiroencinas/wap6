@@ -30,3 +30,5 @@ our $http-header_400 is export = "HTTP/1.1 400 Bad Request" ~ $nl ~ "Content-Typ
 our $http-header_404 is export = "HTTP/1.1 404 Not Found" ~ $nl ~ "Content-Type: text/html;charset=utf-8" ~ $nel ~ "<h3>Not Found</h3>";
 
 our $http-header_413 is export = "HTTP/1.1 413 Request Entity Too Large" ~ $nl ~ "Content-Type: text/html;charset=utf-8" ~ $nel ~ "<h3>Request Entity Too Large</h3>";
+
+our $http-header_500 is export = "HTTP/1.1 500 Internal Server Error" ~ $nl ~ "Content-Type: text/html;charset=utf-8" ~ $nel ~ "<h3>Internal Server Error</h3>";
