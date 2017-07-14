@@ -10,8 +10,8 @@ use ContentType;
 
 sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
 
-  # resume all exceptions and write anyone in error.log
-  CATCH { default { write-error-log $_; .resume } }
+  # get generic exceptions, write them in error.log and return HTTP 500 error
+  CATCH { default { write-error-log $_; return $http-header_500 } }
 
   # validations
   # check http entity max size
