@@ -11,7 +11,7 @@ use ContentType;
 sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
 
   # get generic exceptions, write them in error.log and return HTTP 500 error
-  CATCH { default { write-error-log $_; return $http-header_500 } }
+  CATCH { default { write-error-log $_; return $http-header_500; } }
 
   # validations
   # check http entity max size
