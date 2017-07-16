@@ -1,4 +1,5 @@
 # Wap6
+[![Build Status](https://travis-ci.org/ramiroencinas/wap6.svg?branch=master)](https://travis-ci.org/ramiroencinas/wap6)
 A Perl 6 concurrent web application framework module
 
 ## Features:
