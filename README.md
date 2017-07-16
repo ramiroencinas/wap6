@@ -8,9 +8,8 @@ A Perl 6 concurrent web application framework module
 - Public folder to host front-end structure (html, js, css and text based files).
 - Routes with the corresponding webservices using Perl6 Modules.
 - GET and POST HTTP methods.
-- 200, 400, 404 and 413 HTTP status response codes.
+- 200, 400, 404, 413 and 500 HTTP status response codes.
 - Concurrent tranfers with IO::Socket::Async Class.
-- UTF-8 by default.
 
 ## Required Perl 6 modules:
 
@@ -51,7 +50,7 @@ wap(:$server-ip, :$server-port, :$default-html, :%webservices);
   - Set `$default-html` variable with the name of the default html file located in the `/public` folder.
   - Creates a hash ( %webservices in the example ). This hash will contain the webservices, one per hash item. Each item of this hash will contain the webservice route ( /ws1 in the example ) as the key. The corresponding value will contain a list of two values:
     - The reference to the corresponding subrutine ( &ws1 in the example ). Each subrutine reference must have its corresponding subrutine in the `/webservices/Webservices.pm6` module.
-    - The content type of the corresponding subroutine return. The content type can be any of those that are found as key in the hash of the /lib/ContentType.pm6 module. 
+    - The content type of the corresponding subroutine return. The content type can be any of those that are found as key in the hash of the /lib/ContentType.pm6 module.
 
 - Use the `/public` folder to host the front-end structure (html, js, css, etc.)
 - Use the `/webservices/Webservices.pm6` module to write your webservices (a subrutine per webservice).
