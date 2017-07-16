@@ -15,7 +15,6 @@ A Perl 6 concurrent web application framework module
 ## Required Perl 6 modules:
 
 - URI;
-- URI::Escape;
 
 ## Example:
 (Go to demo folder for a full example)
