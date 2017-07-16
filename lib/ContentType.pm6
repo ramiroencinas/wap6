@@ -1,6 +1,6 @@
 unit module ContentType;
 
-sub content-type(:$filepath) is export {
+sub content-type(:$filepath?, :$direct-type?) is export {
 
   my %hash = (
     css  => 'text/css',
@@ -18,11 +18,14 @@ sub content-type(:$filepath) is export {
     zip  => 'application/zip'
   );
 
-
-  if %hash{$filepath.IO.extension.lc}:exists {
-    return %hash{$filepath.IO.extension.lc}
+  with $filepath {
+    if %hash{$filepath.IO.extension.lc}:exists {
+      return %hash{$filepath.IO.extension.lc}
+    }
+    return 'text/plain;charset=UTF-8';
   }
 
-  return 'text/plain;charset=UTF-8';
-
+  with $direct-type {
+    return %hash{$direct-type};
+  }
 }

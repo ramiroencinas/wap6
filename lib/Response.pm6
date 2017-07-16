@@ -7,17 +7,23 @@ use WriteLog;
 use WriteAccessLog;
 use WriteErrorLog;
 use ContentType;
+use ResponseHeaders;
 
 sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
 
   # get generic exceptions, write them in error.log and return HTTP 500 error
-  CATCH { default { write-error-log $_; return $http-header_500; } }
+  CATCH {
+    default {
+      write-error-log $_;
+      return response-headers(500,'text/html') ~ '<h3>Internal Server Error</h3>';
+    }
+  }
 
   # validations
   # check http entity max size
   if $buf.elems > $max-size-bytes-http-entity {
     # too long, return 413 error
-    return $http-header_413;
+    return response-headers(413,'text/html') ~ '<h3>Request Entity Too Large</h3>';
   }
 
   # processing received http headers
@@ -38,9 +44,8 @@ sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
     $protocol = $/[0][2].Str;
   } else {
       # incorrect headers, return 400 Bad Request
-      my $error = "Bad Request";
-      write-log :$error;
-      return $http-header_400;
+      write-log 'Bad Request';
+      return response-headers(400,'text/html') ~ '<h3>Bad Request</h3>';
   }
 
   # extract uri path and GET params
@@ -59,18 +64,19 @@ sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
 
     # if there are webservices
     when %webservices{"$_"}:exists {
-      my &ws = %webservices{"$_"};
-      return $http-header_200 ~ &ws(:$get-params, :$body);
+      my ( &ws, $direct-type ) = %webservices{"$_"};
+      my $type = content-type(:$direct-type);
+      return response-headers(200, $type) ~ &ws(:$get-params, :$body);
     }
 
     # file in path not exists, returns 404 http code
     when !("$current-dir/public/$_").IO.e {
-      return $http-header_404;
+      return response-headers(404,'text/html') ~ '<h3>Not Found</h3>';
     }
 
     # the path is the public root dir, returns default public file
     when $_ eq "\/" {
-      return $http-header_200 ~ slurp "$current-dir/public/$default-html";
+      return response-headers(200,'text/html') ~ slurp "$current-dir/public/$default-html";
     }
 
     # the path is another file, returns it!
@@ -78,7 +84,7 @@ sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
     default {
       my $filepath = "$current-dir/public/$path";
       my $type = content-type(:$filepath);
-      return "HTTP/1.1 200 OK" ~ $nl ~ "Content-Type: $type" ~ $nel ~ slurp "$current-dir/public/$path";
+      return response-headers(200, $type) ~ slurp "$current-dir/public/$path";
     }
   }
 }
