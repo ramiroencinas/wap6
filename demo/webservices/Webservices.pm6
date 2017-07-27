@@ -6,10 +6,10 @@ sub ws1 ( :$get-params, :$body ) is export {
   if $body { return 'From ws1: ' ~ $body; }
 }
 
-# Webservice 2, returns the inconming data
+# Webservice 2, returns the inconming data in JSON
 sub ws2 ( :$get-params, :$body ) is export {
-  if $get-params { return 'From ws2: ' ~ $get-params; }
-  if $body { return 'From ws2: ' ~ $body; }
+  if $get-params { return '{"ws2":"From ws2: ' ~ $get-params ~ '"}'; }
+  if $body { return '{"ws2":"From ws2: ' ~ $body ~ '"}'; }
 }
 
 # Webservice ws-fileops, read file or add elements to file
