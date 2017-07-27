@@ -40,7 +40,7 @@ function write_return (data, method, webservice_url) {
   if ( ( method == "GET" )  && ( webservice_url == "ws1" ) ) { $("#get-returned-ws1").html(data); }
   if ( ( method == "POST" ) && ( webservice_url == "ws1") )  { $("#post-returned-ws1").html(data); }
 
-  // response from webservice2
-  if ( ( method == "GET" )  && ( webservice_url == "ws2" ) ) { $("#get-returned-ws2").html(data); }
-  if ( ( method == "POST" ) && ( webservice_url == "ws2") )  { $("#post-returned-ws2").html(data); }
+  // response from webservice2 (JSON)
+  if ( ( method == "GET" )  && ( webservice_url == "ws2" ) ) { $("#get-returned-ws2").html(data.ws2); }
+  if ( ( method == "POST" ) && ( webservice_url == "ws2") )  { $("#post-returned-ws2").html(data.ws2); }
 }
