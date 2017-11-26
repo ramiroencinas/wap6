@@ -7,3 +7,4 @@ perl6:
 install:
   - rakudobrew build-zef
   - zef install URI
+  - zef install IO::Socket::Async::SSL
