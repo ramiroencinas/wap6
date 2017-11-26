@@ -10,10 +10,12 @@ A Perl 6 concurrent web application framework module
 - GET and POST HTTP methods.
 - 200, 400, 404, 413 and 500 HTTP status response codes.
 - Concurrent tranfers with IO::Socket::Async Class.
+- SSL support with IO::Socket::Async::SSL (See SSL Notes below)
 
 ## Required Perl 6 modules:
 
 - URI
+- IO::Socket::Async::SSL (for SSL support)
 
 ## Example:
 (Go to demo folder for a full example)
@@ -58,3 +60,13 @@ wap(:$server-ip, :$server-port, :$default-html, :%webservices);
 - Run with: `perl6 wap6.pl6`
 - Run web-client in http://localhost:3000
 - Enjoy!
+
+## SSL Notes
+
+- For now only works on systems with openssl installed (like Linux).
+- In the `demo` folder, type `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt` to auto generate `server.crt` and `server.key` files.
+- Take a look at /demo/wap-ssl.pl6
+- Try running `perl6 wap6-ssl.pl6`
+- Run web-client in https://localhost:4433
+- Confirm SSL exception.
+- Enjoy encrypted transfers!
