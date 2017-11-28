@@ -2,9 +2,16 @@ unit module Sessions;
 
 use Configuration;
 
-sub session-cookie (:$headers) is export {
+sub session-cookie ($headers) is export {
 
-  my $session-cookie = get-session-cookie (:$headers);
+  # extract session cookie from headers if exists
+  my $session-cookie = '';
+
+  if $headers ~~ m:g:i:s/^^Cookie\: $sessionidname\=(.*?)$$/ {
+    $session-cookie = $/[0][0].Str;
+  } else {
+    $session-cookie = 'no-wap6-session-cookie';
+  }
 
   # if no session cookie from client headers
   # creates a new one in $current-session-id global var
@@ -14,8 +21,11 @@ sub session-cookie (:$headers) is export {
     # new reg in $sessionsfile
     my $header = "Sessions file\n";
 
-    # generate logline
+    # generate new session id
     $current-session-id = 'new-token-here';
+
+    # with this the response headers will include the set-cookie
+    $session-cookie-exists = False;
 
     my $line = DateTime.now ~ " $current-session-id\n";
 
@@ -27,19 +37,15 @@ sub session-cookie (:$headers) is export {
 
   } else {
     # the client has a session cookie
+
+    ####### check if received $session-cookie exists in the server ... ######
+    # if not exists set new one in the client with $session-cookie-exists = False;
+    # if the $session-cookie received exists, it is ok:
+    $session-cookie-exists = True;
+
     # write it in $current-session-id global var
     $current-session-id = $session-cookie;
 
     # and write it in some log...
-  }
-}
-
-# extract session cookie from headers if exists
-sub get-session-cookie (:$headers) {
-
-  if $headers ~~ m:g:i:s/Cookie: $session-id-name=(.*?)\;/ {
-    return $/[0][0].Str;
-  } else {
-    return 'no-wap6-session-cookie';
   }
 }

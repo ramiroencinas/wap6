@@ -43,7 +43,7 @@ sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
     $protocol = $/[0][2].Str;
   } else {
       # incorrect headers, return 400 Bad Request
-      write-log 'Bad Request';
+      #write-log 'Bad Request';
       return response-headers(400,'text/html') ~ '<h3>Bad Request</h3>';
   }
 

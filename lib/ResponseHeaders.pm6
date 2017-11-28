@@ -14,9 +14,12 @@ sub response-headers($status-code, $content-type) is export {
 
   my $response-headers = %codes{"$status-code"} ~ $nl ~ 'Content-Type: ' ~ $content-type ~ $nl;
 
-  # add wap6-session cookie with $current-session-id if $session-mode-on
-  if $session-mode-on {
-    $response-headers ~= "Set-Cookie: $session-id-name=$current-session-id;Secure;HttpOnly" ~ $nl;
+  # add wap6-session cookie to response headers, with $current-session-id
+  # if $session-mode-on
+  # and
+  # the session cookie not exists
+  if $session-mode-on && !$session-cookie-exists {
+    $response-headers ~= "Set-Cookie: $sessionidname=$current-session-id;Secure;HttpOnly" ~ $nl;
   }
 
   return $response-headers ~ $nl;
