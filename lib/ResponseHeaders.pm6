@@ -12,5 +12,12 @@ sub response-headers($status-code, $content-type) is export {
     500 => 'HTTP/1.1 500 Internal Server Error'
   );
 
-  return %codes{"$status-code"} ~ $nl ~ 'Content-Type: ' ~ $content-type ~ $nel;
+  my $response-headers = %codes{"$status-code"} ~ $nl ~ 'Content-Type: ' ~ $content-type ~ $nl;
+
+  # add wap6-session cookie with $current-session-id if $session-mode-on
+  if $session-mode-on {
+    $response-headers ~= "Set-Cookie: $session-id-name=$current-session-id;Secure;HttpOnly" ~ $nl;
+  }
+
+  return $response-headers ~ $nl;
 }

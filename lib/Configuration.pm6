@@ -1,5 +1,7 @@
 unit module Configuration;
 
+our $session-mode-on is export = True; # True = use sessions cookies, False = not use sessions cookies
+
 # current application path
 our $current-dir is export = $*CWD;
 
@@ -14,6 +16,14 @@ our $accesslogfile is export = $current-dir ~ '/access.log';
 
 # error.log file
 our $errorlogfile is export = $current-dir ~ '/error.log';
+
+# sessions.txt file
+our $sessionsfile is export = $current-dir ~ '/sessions';
+
+# current session id
+our $current-session-id is export = '';
+
+our $session-id-name is export = "wap6-session";
 
 # max size of error log
 our $max-size-error-log is export = 1000000; # 1mb

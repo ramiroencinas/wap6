@@ -3,7 +3,6 @@ unit module Response;
 use Configuration;
 use URI;
 use URI::Escape;
-use WriteLog;
 use WriteAccessLog;
 use WriteErrorLog;
 use ContentType;
@@ -48,13 +47,20 @@ sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
       return response-headers(400,'text/html') ~ '<h3>Bad Request</h3>';
   }
 
+  # session control if True
+  if $session-mode-on {
+    use Sessions;
+    session-cookie $headers;
+  }
+
   # extract uri path and GET params
   my URI $uri .= new($uri-full);
   my $path = uri-unescape($uri.path);
   my $get-params = uri-unescape($uri.query);
 
-  # shows processed incoming data
-  write-log :$method, :$path, :$get-params, :$body;
+  # shows processed incoming data, for debugging purposes
+  # use WriteLog;
+  # write-log :$method, :$path, :$get-params, :$body;
 
   # write access log
   write-access-log :$method, :$path, :$get-params;
