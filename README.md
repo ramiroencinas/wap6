@@ -63,7 +63,7 @@ wap(:$server-ip, :$server-port, :$default-html, :%webservices);
 
 ## SSL Notes
 
-For now only works on systems where openssl can be installed (like Linux).   
+For now only works on systems where libssl-dev can be installed (like Linux).   
 In the `demo` folder, type:
 
 `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt`
