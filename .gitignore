@@ -4,3 +4,4 @@ error.log
 bbdd.txt
 server.key
 server.crt
+sessions
