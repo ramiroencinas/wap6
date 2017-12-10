@@ -11,10 +11,12 @@ my $server-ip = "0.0.0.0";
 my $server-port = 3000;
 my $default-html = "index.html";
 
-my %webservices;
-# key = route, value = ( corresponding sub of the Webservices module, content-type )
-%webservices{'/ws1'}        = ( &ws1, 'html' );
-%webservices{'/ws2'}        = ( &ws2, 'json' );
-%webservices{'/ws-fileops'} = ( &ws-fileops, 'html' );
+# Webservices routing
+# URI => ( corresponding sub of the Webservices module, content-type )
+my %webservices =
+  '/ws1' => (&ws1, 'html'),
+  '/ws2' => (&ws2, 'json'),
+  '/ws3' => (&ws-fileops, 'html')
+;
 
 wap(:$server-ip, :$server-port, :$default-html, :%webservices);
