@@ -50,8 +50,8 @@ sub response(:$buf, :$current-dir, :$default-html, :%webservices) is export {
 
   # extract uri path and GET params
   my URI $uri .= new($uri-full);
-  my $path = uri-unescape($uri.path);
-  my $get-params = uri-unescape($uri.query);
+  my $path = $uri.path;
+  my $get-params = $uri.query;
 
   # shows processed incoming data
   write-log :$method, :$path, :$get-params, :$body;
