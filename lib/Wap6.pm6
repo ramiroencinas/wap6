@@ -18,8 +18,7 @@ sub wap(:$server-ip, :$server-port, :$default-html, :%webservices) is export {
       # it converts it in binary format (blob) with the :bin named parameter
       whenever $conn.Supply(:bin) -> $buf {
         my $response = response(:$buf, :$current-dir, :$default-html, :%webservices);
-        $conn.write: $response.encode('UTF-8'); # .encode returns binary format (blob)
-        $conn.close;
+          whenever $conn.write: $response.encode('UTF-8') -> $res { $conn.close; } # .encode returns binary format (blob)
       }
     }
   }
