@@ -1,5 +1,5 @@
 # Wap6
-[![Build Status](https://travis-ci.org/ramiroencinas/wap6.svg?branch=master)](https://travis-ci.org/ramiroencinas/wap6)
+This project has changed its name to **RawApp** and its development continues with **Raku** on [this repository](https://github.com/ramiroencinas/RawApp).
 
 A Perl 6 concurrent web application framework module
 
